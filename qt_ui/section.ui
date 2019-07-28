@@ -45,8 +45,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>692</width>
-        <height>817</height>
+        <width>712</width>
+        <height>549</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0">
@@ -61,20 +61,13 @@
          <property name="sizeConstraint">
           <enum>QLayout::SetMinimumSize</enum>
          </property>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="lineEditName"/>
+         </item>
          <item row="1" column="0">
           <widget class="QLabel" name="lblName">
            <property name="text">
             <string>Name</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="lineEditName"/>
-         </item>
-         <item row="1" column="2">
-          <widget class="QCheckBox" name="checkStay">
-           <property name="text">
-            <string>Stay in Room</string>
            </property>
           </widget>
          </item>
@@ -124,7 +117,7 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>476</height>
+           <height>180</height>
           </size>
          </property>
         </widget>
