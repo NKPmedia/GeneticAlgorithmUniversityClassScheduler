@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtWidgets
 from components import Database as db, ResourceTracker, ScheduleParser, ScenarioComposer, GeneticAlgorithm
-from py_ui import Generate as Parent
+from py_ui import generate as Parent
 from sqlite3 import Binary
 from numpy import mean
 import pickle

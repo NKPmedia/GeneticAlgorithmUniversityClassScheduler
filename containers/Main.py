@@ -1,11 +1,11 @@
 from PyQt5 import QtCore
 from containers import Generate, Instructor, ResultViewer, Room, Subject, Section
 from components import Settings, Database, Timetable, ImportExportHandler as ioHandler
-from py_ui import Main
+from py_ui import main
 import json
 import gc
 
-class MainWindow(Main.Ui_MainWindow):
+class MainWindow(main.Ui_MainWindow):
     def __init__(self, parent):
         super().__init__()
         self.parent = parent

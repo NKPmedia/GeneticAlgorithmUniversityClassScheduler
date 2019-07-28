@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets
 from components import Settings, Database as db, ScheduleParser
-from py_ui import Result as Parent
+from py_ui import result as Parent
 import pickle
 import json
 import csv

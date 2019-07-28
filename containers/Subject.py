@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtGui
 from components import Database as db
-from py_ui import Subject as Parent
+from py_ui import subject as Parent
 import json
 
 

@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtGui
 from components import Database as db, Timetable
-from py_ui import Room as Parent
+from py_ui import room as Parent
 import json
 
 

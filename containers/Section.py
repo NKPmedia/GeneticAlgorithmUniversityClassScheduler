@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets, QtGui
 from containers import Share
 from components import Database as db, Timetable
-from py_ui import Section as Parent
+from py_ui import section as Parent
 import json
 
 

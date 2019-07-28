@@ -2,9 +2,10 @@
 
 # Form implementation generated from reading ui file 'main.ui'
 #
-# Created by: PyQt5 UI code generator 5.6
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
+
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -40,7 +41,6 @@ class Ui_MainWindow(object):
         self.tabInstructors = QtWidgets.QWidget()
         self.tabInstructors.setObjectName("tabInstructors")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.tabInstructors)
-        self.verticalLayout_2.setContentsMargins(9, 9, 9, 9)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.groupBox = QtWidgets.QGroupBox(self.tabInstructors)
         self.groupBox.setObjectName("groupBox")
@@ -60,7 +60,6 @@ class Ui_MainWindow(object):
         self.tabRooms = QtWidgets.QWidget()
         self.tabRooms.setObjectName("tabRooms")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.tabRooms)
-        self.verticalLayout_3.setContentsMargins(9, 9, 9, 9)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.groupBox_2 = QtWidgets.QGroupBox(self.tabRooms)
         self.groupBox_2.setObjectName("groupBox_2")
@@ -80,7 +79,6 @@ class Ui_MainWindow(object):
         self.tabSubjects = QtWidgets.QWidget()
         self.tabSubjects.setObjectName("tabSubjects")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.tabSubjects)
-        self.verticalLayout_4.setContentsMargins(9, 9, 9, 9)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.groupBox_3 = QtWidgets.QGroupBox(self.tabSubjects)
         self.groupBox_3.setObjectName("groupBox_3")
@@ -100,7 +98,6 @@ class Ui_MainWindow(object):
         self.tabSections = QtWidgets.QWidget()
         self.tabSections.setObjectName("tabSections")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.tabSections)
-        self.verticalLayout_5.setContentsMargins(9, 9, 9, 9)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.groupBox_4 = QtWidgets.QGroupBox(self.tabSections)
         self.groupBox_4.setObjectName("groupBox_4")
@@ -123,7 +120,6 @@ class Ui_MainWindow(object):
         self.tabScenario.setObjectName("tabScenario")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.tabScenario)
         self.verticalLayout_6.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
-        self.verticalLayout_6.setContentsMargins(9, 9, 9, 9)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.groupBox_5 = QtWidgets.QGroupBox(self.tabScenario)
         self.groupBox_5.setObjectName("groupBox_5")
@@ -452,41 +448,33 @@ class Ui_MainWindow(object):
         self.label_21.setText(_translate("MainWindow", "Deviation Tolerance"))
         self.label_12.setToolTip(_translate("MainWindow", "Stops the generation when a chromosome meets this."))
         self.label_12.setText(_translate("MainWindow", "Maximum Fitness"))
-        self.label_11.setToolTip(_translate("MainWindow",
-                                            "<html><head/><body><p>Triggers mutation rate change when the difference of average fitness falls to the specificied level.</p></body></html>"))
+        self.label_11.setToolTip(_translate("MainWindow", "<html><head/><body><p>Triggers mutation rate change when the difference of average fitness falls to the specificied level.</p></body></html>"))
         self.label_11.setText(_translate("MainWindow", "Mutation Rate Adjustment Trigger"))
         self.label_10.setToolTip(_translate("MainWindow", "Maximum attempts for creating a valid chromosome."))
         self.label_10.setText(_translate("MainWindow", "Maximum Creation Attempts"))
-        self.label_9.setToolTip(
-            _translate("MainWindow", "Maximum amount of generations to be performed on solution generation."))
+        self.label_9.setToolTip(_translate("MainWindow", "Maximum amount of generations to be performed on solution generation."))
         self.label_9.setText(_translate("MainWindow", "Maximum Generations"))
-        self.label_7.setToolTip(
-            _translate("MainWindow", "Starting point and lowest population count of the genetic algorithm."))
+        self.label_7.setToolTip(_translate("MainWindow", "Starting point and lowest population count of the genetic algorithm."))
         self.label_7.setText(_translate("MainWindow", "Minimum Population Count"))
         self.label_8.setToolTip(_translate("MainWindow", "Highest population count of the genetic algorithm."))
         self.label_8.setText(_translate("MainWindow", "Maximum Population Count"))
         self.groupBox_9.setTitle(_translate("MainWindow", "Evaluation Matrix"))
-        self.label_15.setToolTip(_translate("MainWindow",
-                                            "The weight of section rest (There must be a rest for every consecutive 3 hours of session)"))
+        self.label_15.setToolTip(_translate("MainWindow", "The weight of section rest (There must be a rest for every consecutive 3 hours of session)"))
         self.label_15.setText(_translate("MainWindow", "Section Rest"))
         self.label_18.setToolTip(_translate("MainWindow", "The weight of sections having less idle time."))
         self.label_18.setText(_translate("MainWindow", "Section Idle Time"))
-        self.label_19.setToolTip(
-            _translate("MainWindow", "The weight of having all instructors have normalized teaching load."))
+        self.label_19.setToolTip(_translate("MainWindow", "The weight of having all instructors have normalized teaching load."))
         self.label_19.setText(_translate("MainWindow", "Instructor Load Balance"))
-        self.label_17.setToolTip(
-            _translate("MainWindow", "The weight of having correct meeting patterns for subject placement."))
+        self.label_17.setToolTip(_translate("MainWindow", "The weight of having correct meeting patterns for subject placement."))
         self.label_17.setText(_translate("MainWindow", "Meeting Pattern"))
-        self.label_16.setToolTip(_translate("MainWindow",
-                                            "The weight of instructor rest (There must be a rest for every consecutive 3 hours of session)"))
+        self.label_16.setToolTip(_translate("MainWindow", "The weight of instructor rest (There must be a rest for every consecutive 3 hours of session)"))
         self.label_16.setText(_translate("MainWindow", "Instructor Rest"))
         self.label_13.setToolTip(_translate("MainWindow", "The weight of having all subjects placed."))
         self.label_13.setText(_translate("MainWindow", "Subject Placement"))
         self.label_14.setToolTip(_translate("MainWindow", "The weight of having a lunch break."))
         self.label_14.setText(_translate("MainWindow", "Lunch Break"))
-        self.lblTotal.setText(_translate("MainWindow", "Total: "))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabScenario),
-                                  _translate("MainWindow", "Scenario Manager"))
+        self.lblTotal.setText(_translate("MainWindow", "TextLabel"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabScenario), _translate("MainWindow", "Scenario Manager"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.actionNew.setText(_translate("MainWindow", "New"))

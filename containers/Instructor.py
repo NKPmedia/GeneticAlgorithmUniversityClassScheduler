@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets, QtGui
 from components import Database as db, Timetable
-from py_ui import Instructor as Parent
+from py_ui import instructor as Parent
 import json
 
 
