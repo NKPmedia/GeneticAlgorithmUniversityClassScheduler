@@ -45,10 +45,10 @@ def setup():
           code TEXT NOT NULL,
           description TEXT NOT NULL,
           instructors TEXT NOT NULL,
-          divisible BOOLEAN NOT NULL DEFAULT 1 CHECK (
-            divisible IN (0, 1)
-          ),
-          type TEXT NOT NULL
+          subject_type TEXT NOT NULL,
+          withTest BOOLEAN NOT NULL DEFAULT 1 CHECK (
+            withTest IN (0, 1)
+          )
         );
     """
     create_sections_table = """
@@ -65,16 +65,6 @@ def setup():
           )
         );
     """
-    create_sharing_table = """
-        CREATE TABLE IF NOT EXISTS sharings (
-          id INTEGER PRIMARY KEY,
-          subjectId INTEGER NOT NULL,
-          sections TEXT NOT NULL,
-          final BOOLEAN NOT NULL DEFAULT 0 CHECK (
-            final IN (0, 1)
-          )
-        );
-    """
     create_results_table = """
         CREATE TABLE IF NOT EXISTS results (
           id INTEGER PRIMARY KEY,
@@ -86,7 +76,6 @@ def setup():
     cursor.execute(create_rooms_table)
     cursor.execute(create_subjects_table)
     cursor.execute(create_sections_table)
-    cursor.execute(create_sharing_table)
     cursor.execute(create_results_table)
     conn.commit()
     conn.close()

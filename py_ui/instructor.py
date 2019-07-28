@@ -61,6 +61,6 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Instructor"))
         self.lblName.setText(_translate("Dialog", "Name"))
-        self.lblHours.setText(_translate("Dialog", "Available Hours"))
-        self.btnFinish.setText(_translate("Dialog", "Finish"))
+        self.lblHours.setText(_translate("Dialog", "Max Einheiten"))
+        self.btnFinish.setText(_translate("Dialog", "Fertig"))
         self.btnCancel.setText(_translate("Dialog", "Cancel"))

@@ -75,14 +75,14 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabInstructors">
        <property name="whatsThis">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <attribute name="title">
-        <string>Instructors</string>
+        <string>Referenten</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
@@ -94,7 +94,7 @@
            <item>
             <widget class="QPushButton" name="btnInstrAdd">
              <property name="text">
-              <string>Add Instructor</string>
+              <string>Referent hinzufügen</string>
              </property>
             </widget>
            </item>
@@ -115,7 +115,7 @@
       </widget>
       <widget class="QWidget" name="tabRooms">
        <attribute name="title">
-        <string>Rooms</string>
+        <string>Räume</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
@@ -127,7 +127,7 @@
            <item>
             <widget class="QPushButton" name="btnRoomAdd">
              <property name="text">
-              <string>Add Room</string>
+              <string>Raum hinzufügen</string>
              </property>
             </widget>
            </item>
@@ -148,7 +148,7 @@
       </widget>
       <widget class="QWidget" name="tabSubjects">
        <attribute name="title">
-        <string>Subjects</string>
+        <string>Einheiten</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
@@ -160,7 +160,7 @@
            <item>
             <widget class="QPushButton" name="btnSubjAdd">
              <property name="text">
-              <string>Add Subject</string>
+              <string>Einheit hinzufügen</string>
              </property>
             </widget>
            </item>
@@ -181,7 +181,7 @@
       </widget>
       <widget class="QWidget" name="tabSections">
        <attribute name="title">
-        <string>Sections</string>
+        <string>Kurse</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
@@ -193,7 +193,7 @@
            <item>
             <widget class="QPushButton" name="btnSecAdd">
              <property name="text">
-              <string>Add Section</string>
+              <string>Kurs hinzufügen</string>
              </property>
             </widget>
            </item>
@@ -828,7 +828,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

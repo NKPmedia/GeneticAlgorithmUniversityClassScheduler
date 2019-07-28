@@ -13,8 +13,8 @@ class Subject:
         self.parent = parent = Parent.Ui_Dialog()
         # Add parent to custom dialog
         parent.setupUi(dialog)
-        parent.radioLec.setChecked(True)
-        parent.radioYes.setChecked(True)
+        parent.radioWithoutTest.setChecked(True)
+        parent.radioA.setChecked(True)
         if id:
             self.fillForm()
         self.setupInstructors()
@@ -25,28 +25,28 @@ class Subject:
     def fillForm(self):
         conn = db.getConnection()
         cursor = conn.cursor()
-        cursor.execute('SELECT name, hours, code, description, divisible, type FROM subjects WHERE id = ?', [self.id])
+        cursor.execute('SELECT name, hours, code, description, subject_type, withTest FROM subjects WHERE id = ?', [self.id])
         result = cursor.fetchone()
         conn.close()
         self.parent.lineEditName.setText(str(result[0]))
         self.parent.lineEditHours.setText(str(result[1]))
         self.parent.lineEditCode.setText(str(result[2]))
         self.parent.lineEditDescription.setText(str(result[3]))
-        if result[4]:
-            self.parent.radioYes.setChecked(True)
+        if result[5]:
+            self.parent.radioWithTest.setChecked(True)
         else:
-            self.parent.radioNo.setChecked(True)
-        if result[5] == 'lec':
-            self.parent.radioLec.setChecked(True)
-        elif result[5] == 'lab':
-            self.parent.radioLab.setChecked(True)
+            self.parent.radioWithoutTest.setChecked(True)
+        if result[4] == 'A':
+            self.parent.radioA.setChecked(True)
+        elif result[4] == 'B':
+            self.parent.radioB.setChecked(True)
         else:
-            self.parent.radioAny.setChecked(True)
+            self.parent.radioC.setChecked(True)
 
     def setupInstructors(self):
         self.tree = tree = self.parent.treeSchedule
         self.model = model = QtGui.QStandardItemModel()
-        model.setHorizontalHeaderLabels(['ID', 'Available', 'Name'])
+        model.setHorizontalHeaderLabels(['ID', 'Available', "Co-Ref", "Will machen Score",  'Name'])
         tree.setModel(model)
         tree.setColumnHidden(0, True)
         conn = db.getConnection()
@@ -56,18 +56,25 @@ class Subject:
         subjectAssignments = []
         if self.id:
             cursor.execute('SELECT instructors FROM subjects WHERE id = ?', [self.id])
-            subjectAssignments = list(map(lambda id: int(id), json.loads(cursor.fetchone()[0])))
+            subjectAssignments = json.loads(cursor.fetchone()[0])
+            subjectAssignmentsIDs = list(map(lambda d: int(d), subjectAssignments.keys()))
         conn.close()
         for entry in instructors:
             id = QtGui.QStandardItem(str(entry[0]))
             id.setEditable(False)
             availability = QtGui.QStandardItem()
             availability.setCheckable(True)
-            availability.setCheckState(2 if entry[0] in subjectAssignments else 0)
+            availability.setCheckState(2 if entry[0] in subjectAssignmentsIDs else 0)
             availability.setEditable(False)
+            co_ref = QtGui.QStandardItem()
+            co_ref.setCheckable(True)
+            co_ref.setCheckState(subjectAssignments[str(entry[0])]["co_ref"] if entry[0] in subjectAssignmentsIDs else 0)
+            co_ref.setEditable(False)
+            do_score = QtGui.QStandardItem(subjectAssignments[str(entry[0])]["score"] if entry[0] in subjectAssignmentsIDs else 0)
+            do_score.setEditable(True)
             name = QtGui.QStandardItem(str(entry[1]))
             name.setEditable(False)
-            model.appendRow([id, availability, name])
+            model.appendRow([id, availability, co_ref, do_score,  name])
 
     def finish(self):
         if not self.parent.lineEditName.text():
@@ -78,23 +85,26 @@ class Subject:
                 self.parent.lineEditHours.text()) > 12 or not (
                 float(self.parent.lineEditHours.text()) / .5).is_integer():
             return False
-        instructors = []
+        instructors = {}
         for row in range(0, self.model.rowCount()):
             if self.model.item(row, 1).checkState() == 0:
                 continue
-            instructors.append(self.model.item(row, 0).text())
+            instructor = {self.model.item(row, 0).text(): {
+                          "co_ref": self.model.item(row, 2).checkState(),
+                          "score": self.model.item(row, 3).text()}}
+            instructors.update(instructor)
         name = self.parent.lineEditName.text()
         code = self.parent.lineEditCode.text()
         hours = self.parent.lineEditHours.text()
         description = self.parent.lineEditDescription.text()
-        divisible = 1 if self.parent.radioYes.isChecked() else 0
-        if self.parent.radioLec.isChecked():
-            type = 'lec'
-        elif self.parent.radioLab.isChecked():
-            type = 'lab'
+        withTest = 1 if self.parent.radioWithTest.isChecked() else 0
+        if self.parent.radioA.isChecked():
+            subject_type = 'A'
+        elif self.parent.radioB.isChecked():
+            subject_type = 'B'
         else:
-            type = 'any'
-        data = [name, hours, code, description, json.dumps(instructors), divisible, type, self.id]
+            subject_type = 'C'
+        data = [name, hours, code, description, json.dumps(instructors), withTest, subject_type, self.id]
         if not self.id:
             data.pop()
         self.insertSubject(data)
@@ -106,11 +116,11 @@ class Subject:
         cursor = conn.cursor()
         if len(data) > 7:
             cursor.execute(
-                'UPDATE subjects SET name = ?, hours = ?, code = ?, description = ?, instructors = ?, divisible = ?, type = ? WHERE id = ?',
+                'UPDATE subjects SET name = ?, hours = ?, code = ?, description = ?, instructors = ?, withTest = ?, subject_type = ? WHERE id = ?',
                 data)
         else:
             cursor.execute(
-                'INSERT INTO subjects (name, hours, code, description, instructors, divisible, type) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                'INSERT INTO subjects (name, hours, code, description, instructors, withTest, subject_type) VALUES (?, ?, ?, ?, ?, ?, ?)',
                 data)
         conn.commit()
         conn.close()
@@ -129,7 +139,7 @@ class Tree:
         self.model.removeRows(0, self.model.rowCount())
         conn = db.getConnection()
         cursor = conn.cursor()
-        cursor.execute('SELECT id, code, name, type, instructors FROM subjects')
+        cursor.execute('SELECT id, code, name, subject_type, instructors FROM subjects')
         result = cursor.fetchall()
         cursor.execute('SELECT id, name FROM instructors WHERE active = 1')
         instructorList = dict(cursor.fetchall())
@@ -144,7 +154,7 @@ class Tree:
             type = QtGui.QStandardItem(entry[3].upper())
             type.setEditable(False)
             instructorID = list(
-                set(map(lambda id: int(id), json.loads(entry[4]))).intersection(set(instructorList.keys())))
+                set(map(lambda id: int(id), json.loads(entry[4]).keys())).intersection(set(instructorList.keys())))
             if len(instructorID) > 3:
                 instructorText = ', '.join(list(map(lambda id: instructorList[id], instructorID[0:3]))) + ' and ' + str(
                     len(instructorID) - 3) + ' more'
