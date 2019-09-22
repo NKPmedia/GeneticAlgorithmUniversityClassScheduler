@@ -3,9 +3,9 @@ from PyQt5 import QtCore
 
 # Standard table model requires 2D header and complete dataset
 class TableModel(QtCore.QAbstractTableModel):
-    def __init__(self, header, data):
+    def __init__(self, header, table_data):
         super().__init__()
-        self.data = data
+        self.table_data = table_data
         self.header = header
 
     def data(self, index, role):
@@ -13,13 +13,13 @@ class TableModel(QtCore.QAbstractTableModel):
             return QtCore.QVariant()
         elif role != QtCore.Qt.DisplayRole:
             return QtCore.QVariant()
-        return self.data[index.row()][index.column()]
+        return self.table_data[index.row()][index.column()]
 
     def rowCount(self, parent=None, *args, **kwargs):
-        return len(self.data)
+        return len(self.table_data)
 
     def columnCount(self, parent=None, *args, **kwargs):
-        return len(self.data[0])
+        return len(self.table_data[0])
 
     def headerData(self, p_int, Qt_Orientation, role=None):
         if Qt_Orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole:
@@ -31,6 +31,6 @@ class TableModel(QtCore.QAbstractTableModel):
     def setData(self, index, value, role=None):
         if not index.isValid():
             return False
-        self.data[index.row()][index.column()] = value
+        self.table_data[index.row()][index.column()] = value
         self.dataChanged.emit(index, index)
         return True
