@@ -29,45 +29,22 @@ class Section:
         tree.setModel(model)
         tree.setColumnHidden(0, True)
         tree.setColumnHidden(5, True)
-        # Populate tree with values
-        conn = db.getConnection()
-        cursor = conn.cursor()
-        # Get subjects for listing
-        cursor.execute('SELECT id, name, code FROM subjects')
-        subjects = cursor.fetchall()
-        # Subjects that the current section have
-        currentSubjects = []
-        if self.id:
-            cursor.execute('SELECT subjects FROM sections WHERE id = ?', [self.id])
-            # Convert result into list of int
-            currentSubjects = list(map(lambda id: int(id), json.loads(cursor.fetchall()[0][0])))
-            # Get section names
-            # {id: name}
-            sectionNames = []
-            cursor.execute('SELECT id, name FROM sections WHERE active = 1')
-            sectionNames = dict(cursor.fetchall())
-        conn.close()
-        for subject in subjects:
-            subjectId = QtGui.QStandardItem(str(subject[0]))
-            subjectId.setEditable(False)
-            availability = QtGui.QStandardItem()
-            availability.setCheckable(True)
-            availability.setEditable(False)
-            availability.setCheckState(2 if subject[0] in currentSubjects else 0)
-            code = QtGui.QStandardItem(subject[2])
-            code.setEditable(False)
-            name = QtGui.QStandardItem(subject[1])
-            name.setEditable(False)
-            model.appendRow([subjectId, availability, code, name])
+
 
     def fillForm(self):
         conn = db.getConnection()
         cursor = conn.cursor()
-        cursor.execute('SELECT name, schedule FROM sections WHERE id = ?', [self.id])
+        cursor.execute('SELECT name, schedule, section_type FROM sections WHERE id = ?', [self.id])
         result = cursor.fetchone()
         conn.close()
         self.parent.lineEditName.setText(str(result[0]))
         self.table = Timetable.Timetable(self.parent.tableSchedule, json.loads(result[1]))
+        if result[2] == 'A':
+            self.parent.radioButton_A.setChecked(True)
+        elif result[2] == 'B':
+            self.parent.radioButton_B.setChecked(True)
+        else:
+            self.parent.radioButton_C.setChecked(True)
 
     def finish(self):
         if not self.parent.lineEditName.text():
@@ -79,14 +56,20 @@ class Section:
             if self.model.item(row, 1).checkState() == 2:
                 subjects.append(self.model.item(row, 0).text())
         subjects = json.dumps(subjects)
+        if self.parent.radioButton_A.isChecked():
+            section_type = 'A'
+        elif self.parent.radioButton_B.isChecked():
+            section_type = 'B'
+        else:
+            section_type = 'C'
         conn = db.getConnection()
         cursor = conn.cursor()
         if self.id:
-            cursor.execute('UPDATE sections SET name = ?, schedule = ?, subjects = ?WHERE id = ?',
-                           [name, schedule, subjects, self.id])
+            cursor.execute('UPDATE sections SET name = ?, schedule = ?, section_type = ? WHERE id = ?',
+                           [name, schedule, section_type, self.id])
         else:
-            cursor.execute('INSERT INTO sections (name, schedule, subjects) VALUES (?, ?, ?, ?)',
-                           [name, schedule, subjects])
+            cursor.execute('INSERT INTO sections (name, schedule, section_type) VALUES (?, ?, ?)',
+                           [name, schedule, section_type])
         conn.commit()
         conn.close()
         self.dialog.close()
