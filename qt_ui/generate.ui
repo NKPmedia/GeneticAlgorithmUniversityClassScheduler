@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>835</width>
+    <width>716</width>
     <height>549</height>
    </rect>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1500</width>
+    <width>716</width>
     <height>553</height>
    </size>
   </property>
@@ -189,14 +189,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QTableView" name="tableSchedule">
-     <attribute name="horizontalHeaderMinimumSectionSize">
-      <number>10</number>
-     </attribute>
-     <attribute name="horizontalHeaderDefaultSectionSize">
-      <number>20</number>
-     </attribute>
-    </widget>
+    <widget class="QTableView" name="tableSchedule"/>
    </item>
   </layout>
  </widget>

@@ -13,8 +13,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(835, 549)
-        Dialog.setMaximumSize(QtCore.QSize(1500, 553))
+        Dialog.resize(716, 549)
+        Dialog.setMaximumSize(QtCore.QSize(716, 553))
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
@@ -95,8 +95,6 @@ class Ui_Dialog(object):
         self.verticalLayout_5.addLayout(self.verticalLayout_2)
         self.tableSchedule = QtWidgets.QTableView(Dialog)
         self.tableSchedule.setObjectName("tableSchedule")
-        self.tableSchedule.horizontalHeader().setDefaultSectionSize(50)
-        self.tableSchedule.horizontalHeader().setMinimumSectionSize(10)
         self.verticalLayout_5.addWidget(self.tableSchedule)
 
         self.retranslateUi(Dialog)

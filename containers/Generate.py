@@ -1,6 +1,5 @@
 from PyQt5 import QtCore, QtWidgets
-from components import Database as db, ResourceTracker, ScheduleParser, ScenarioComposer
-from components.deapBackend.geneticAlgo import GeneticAlgorithm
+from components import Database as db, ResourceTracker, ScheduleParser, ScenarioComposer, GeneticAlgorithm
 from py_ui import generate as Parent
 from sqlite3 import Binary
 from numpy import mean
@@ -28,7 +27,8 @@ class Generate:
         self.preview = True
         self.sectionKeys = []
         composer = ScenarioComposer.ScenarioComposer()
-        self.scenario = composer.getScenarioData()
+        composer = composer.getScenarioData()
+        self.data.update(composer)
         self.dialog = dialog = QtWidgets.QDialog(parent=None)
         # Initialize custom dialog
         self.parent = parent = Parent.Ui_Dialog()
@@ -45,7 +45,9 @@ class Generate:
         parent.btnStop.clicked.connect(self.stopOperation)
         parent.chkPreview.clicked.connect(self.togglePreview)
         parent.cmbSection.clear()
-
+        for section, details in self.data['sections'].items():
+            self.sectionKeys.append(section)
+            parent.cmbSection.addItem(details[0])
         parent.cmbSection.currentIndexChanged.connect(self.changePreview)
         self.startWorkers()
         dialog.exec_()
@@ -66,7 +68,7 @@ class Generate:
         self.resourceWorker = ResourceTrackerWorker()
         self.resourceWorker.signal.connect(self.updateResource)
         self.resourceWorker.start()
-        self.geneticAlgorithm = GeneticAlgorithm(self.scenario)
+        self.geneticAlgorithm = GeneticAlgorithm.GeneticAlgorithm(self.data)
         self.geneticAlgorithm.statusSignal.connect(self.updateStatus)
         self.geneticAlgorithm.detailsSignal.connect(self.updateDetails)
         self.geneticAlgorithm.dataSignal.connect(self.updateView)
@@ -85,29 +87,32 @@ class Generate:
         self.parent.lblHighestFitness.setText('Highest Fitness: {}%'.format(details[5]))
         self.parent.lblLowestFitness.setText('Lowest Fitness: {}%'.format(details[6]))
 
-    def updateView(self, topIndividuals):
-        self.topIndividuals = copy.deepcopy(topIndividuals)
+    def updateView(self, chromosomes):
+        chromosomes.reverse()
+        self.topChromosomes = copy.deepcopy(chromosomes)
         self.changePreview(self.parent.cmbSection.currentIndex())
 
     def changePreview(self, index):
         data = []
-        if not len(self.topIndividuals) or not self.preview:
+        if not len(self.topChromosomes) or not self.preview:
             return False
-        individual = self.topIndividuals[index]
-        scenario = self.scenario
-        placed_subject_list = individual.get_placed_subject_list()
-        for i in [1]:
-            instructor = "Test"
-            data.append({'color': None, 'text': '{} \n {} \n {}'.format("T1",
-                                                                        "T2",
-                                                                        "T3"),
-                         'instances': [[1,2, 4], [2,2, 5]]})
+        sections = self.topChromosomes[0][0].data['sections']
+        rawData = self.data
+        subjects = sections[self.sectionKeys[index]]['details']
+        for subject, details in subjects.items():
+            if not len(details):
+                continue
+            instructor = '' if not details[1] else rawData['instructors'][details[1]][0]
+            data.append({'color': None, 'text': '{} \n {} \n {}'.format(rawData['subjects'][subject][0],
+                                                                        rawData['rooms'][details[0]][0],
+                                                                        instructor),
+                         'instances': [[day, details[3], details[3] + details[4]] for day in details[2]]})
         self.loadTable(data)
 
     def loadTable(self, data=[]):
         self.table.reset()
         self.table.clearSpans()
-        ScheduleParser.ScheduleParser(self.scenario, self.table, data)
+        ScheduleParser.ScheduleParser(self.table, data)
 
     def updateOperation(self, type):
         if type == 1:

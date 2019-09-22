@@ -13,7 +13,6 @@ def checkSetup():
 
 
 def setup():
-
     conn = sqlite3.connect('gas.db')
     cursor = conn.cursor()
     create_instructors_table = """
@@ -57,7 +56,7 @@ def setup():
           id INTEGER PRIMARY KEY,
           name TEXT NOT NULL,
           schedule TEXT NOT NULL,
-          section_type TEXT NOT NULL,
+          subjects TEXT NOT NULL,
           active BOOLEAN NOT NULL DEFAULT 1 CHECK (
             active IN (0, 1)
           )
